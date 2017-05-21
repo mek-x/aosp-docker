@@ -1,5 +1,6 @@
-FROM ubuntu:latest
+FROM ubuntu:15.04
 MAINTAINER Piotr Król <piotr.krol@3mdeb.com>
+
 
 # Update the package repository
 RUN apt-get update && apt-get upgrade -y
@@ -18,9 +19,13 @@ RUN apt-get update && apt-get upgrade -y
 # ENV LANGUAGE en_US:en
 # ENV LC_ALL en_US.UTF-8
 
+RUN apt-get install -y software-properties-common
+RUN add-apt-repository ppa:openjdk-r/ppa
+RUN apt-get update
+
 # AOSP dependencies
 RUN apt-get install -y \
-    openjdk-8-jdk \
+    openjdk-7-jdk \
     git-core \
     gnupg \
     flex \
@@ -41,7 +46,9 @@ RUN apt-get install -y \
     libgl1-mesa-dev \
     libxml2-utils \
     xsltproc \
-    unzip
+    unzip \
+    python \
+    clang
 
 RUN useradd -ms /bin/bash build && \
     usermod -aG sudo build
